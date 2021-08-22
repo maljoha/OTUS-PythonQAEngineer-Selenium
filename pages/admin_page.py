@@ -4,9 +4,9 @@ from pages.base import Base
 
 
 class AdminPage(Base):
-    """Класс страницы логина в админку"""
+    """Класс страницы админки"""
 
-    URL = "/admin"
+    URL = "/admin/"
 
     # логотип
     LOGO = (By.CSS_SELECTOR, "img[title=OpenCart]")
@@ -15,16 +15,16 @@ class AdminPage(Base):
     LOGIN_BTN = (By.XPATH, '//button[contains(text(), "Login")]')
     FOGOTTEN_PASSWORD = (By.XPATH, '//a[.="Forgotten Password"]')
 
-    def open_page(self, url):
+    def open_page(self, page_url=""):
         """
         Открытие страницы + ожидание видимости логотипа как знак, что страница загрузилась.
-        :param url: путь к странице без домена
+        :param page_url: путь к странице без домена
         """
-        self.driver.get(self.url + url)
+        self.driver.get(self.url + page_url)
         self.wait_element(self.LOGO)
 
     def check_page_elements(self):
-        """Проверка наличия элементов на страницеа"""
+        """Проверка наличия элементов на странице"""
         tabs = [{"name": "логотип", "loc": self.LOGO},
                 {"name": "поле для ввода логина", "loc": self.USERNAME},
                 {"name": "поле для ввода пароля", "loc": self.PASSWORD},

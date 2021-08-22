@@ -2,6 +2,7 @@ from typing import List
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 
 from conftest import get_url
@@ -26,19 +27,21 @@ class Base:
         self.wait = WebDriverWait(driver, 5)
         self.url = get_url()
 
-    def wait_element(self, loc: tuple):
+    def wait_element(self, loc: tuple) -> WebElement:
         """
         Ожидание появления элемента.
         :param loc: ожидаемый элемент
+        :return: возвращает веб-элемент
         """
         self.wait.until(lambda driver: Base(driver).check_element_exists(loc))
+        return self.driver.find_element(*loc)
 
-    def open_page(self, url=""):
+    def open_page(self, page_url=""):
         """
         Открытие страницы + ожидание видимости логотипа как знак, что страница загрузилась.
-        :param url: путь к странице без домена
+        :param page_url: путь к странице без домена
         """
-        self.driver.get(self.url + url)
+        self.driver.get(self.url + page_url)
         self.wait_element(self.LOGO)
 
     def check_element_exists(self, loc: tuple) -> bool:
