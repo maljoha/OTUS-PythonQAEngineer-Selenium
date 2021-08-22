@@ -7,6 +7,7 @@ URL = ''
 
 def pytest_addoption(parser):
     parser.addoption("--url", action="store", default="https://demo.opencart.com", help="This is request url")
+    # parser.addoption("--url", action="store", default="http://localhost", help="This is request url")
     parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
     parser.addoption("--browser", action="store", choices=["chrome", "firefox", "opera"], default="chrome")
 
