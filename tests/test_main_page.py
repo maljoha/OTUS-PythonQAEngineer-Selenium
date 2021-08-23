@@ -34,3 +34,8 @@ class TestMainPage:
             actual_link = driver.find_element(*main.PRODUCT_IMG).get_attribute("src")
             assert actual_link != prew_link, "Картинка отсутствует или не изменилась после свайпа"
             prew_link = actual_link
+
+    def test_currency_change(self, driver):
+        main = MainPage(driver)
+        main.open_page()
+        main.check_currency_change()
