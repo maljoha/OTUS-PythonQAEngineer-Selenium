@@ -1,5 +1,6 @@
 from typing import List
 
+import allure
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -106,6 +107,7 @@ class Base:
         failed_tabs = [t["name"] for t in locs if not t["ok"]]
         assert ok, f"Отсутствует {failed_tabs}"
 
+    @allure.step("Проверка наличия необходимых блоков в шапке страницы")
     def check_all_general_tabs(self):
         """Проверка наличия необходимых блоков в шапке страницы"""
         tabs = [{"name": "Панель навигации", "loc": self.NAV_TAB},

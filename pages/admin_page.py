@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 
 from pages.base import Base
@@ -40,9 +41,12 @@ class AdminPage(Base):
         Открытие страницы + ожидание видимости логотипа как знак, что страница загрузилась.
         :param page_url: путь к странице без домена
         """
-        self.driver.get(self.url + page_url)
-        self.wait_element(self.LOGO)
+        url = self.url + page_url
+        with allure.step(f"Открытие страницы c url {url}"):
+            self.driver.get(url)
+            self.wait_element(self.LOGO)
 
+    @allure.step("Проверка наличия элементов на странице")
     def check_page_elements(self):
         """Проверка наличия элементов на странице"""
         tabs = [{"name": "логотип", "loc": self.LOGO},
@@ -52,6 +56,7 @@ class AdminPage(Base):
                 {"name": "кнопка для авторизации", "loc": self.LOGIN_BTN}]
         self.check_all_tabs(tabs)
 
+    @allure.step("Авторизация админом")
     def admin_login(self):
         """Авторизация админом + ожидание видимости ссылки для логаута, как знак успешной авторизации."""
         self.fill_field(self.USERNAME, self.ADMIN["login"])
@@ -59,17 +64,20 @@ class AdminPage(Base):
         self.click(self.LOGIN_BTN)
         self.wait_element(self.LOGOUT_LINK)
 
+    @allure.step("Переход в раздел Products")
     def open_products_section(self):
         """Переход в раздел Products + ожидание наменования раздела, как знак успешного перехода."""
         self.click(self.CATALOG_LINK)
         self.click(self.PRODUCTS_LINK)
         self.wait_element(self.h1_name("Products"))
 
+    @allure.step("Переход в раздел добавления нового товара")
     def open_add_products_page(self):
         """Переход в раздел добавления нового товара + ожидание кнопки сохранения, как знак успешного перехода."""
         self.click(self.ADD_BTN)
         self.wait_element(self.SAVE_BUTTON)
 
+    @allure.step("Проверка сообщения после операций с товарами")
     def check_alert_message(self):
         """
         Проверка сообщения после операций с товарами.
@@ -83,6 +91,7 @@ class AdminPage(Base):
         else:
             assert text == "Warning: You do not have permission to modify products!", "Отсутствует ожидаемое сообщение"
 
+    @allure.step("Добавление нового товара")
     def add_new_product(self):
         """Добавление нового товара."""
         self.open_add_products_page()
@@ -93,6 +102,7 @@ class AdminPage(Base):
         self.click(self.SAVE_BUTTON)
         self.check_alert_message()
 
+    @allure.step("Удаление товара")
     def delete_product(self):
         """Удаление товара."""
         self.driver.find_elements(*self.PRODUCT_CHKB)[1].click()

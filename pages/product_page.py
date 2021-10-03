@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 
 from pages.base import Base
@@ -19,6 +20,7 @@ class ProductPage(Base):
     # кнопка добавления в корзину
     ADD_TO_CART_BTN = (By.CSS_SELECTOR, "button#button-cart")
 
+    @allure.step("Проверка наличия необходимых элементов в разделе карточки товара")
     def check_main_elements(self):
         """Проверка наличия необходимых элементов в разделе карточки товара"""
         tabs = [{"name": "наименование товара", "loc": self.PRODUCT_NAME},

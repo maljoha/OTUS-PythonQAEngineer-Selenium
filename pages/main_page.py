@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 
 from pages.base import Base
@@ -18,6 +19,7 @@ class MainPage(Base):
     # карусель с лейблами
     LABELS_CAROUSELE = (By.CSS_SELECTOR, "div#carousel0")
 
+    @allure.step("Проверка смены валют")
     def check_currency_change(self):
         """Проверка смены валют."""
         self.click(self.CURRENCY_MENU)
